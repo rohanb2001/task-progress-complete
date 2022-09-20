@@ -55,6 +55,7 @@ ul {
 }
 
 .todo {
+  position: relative;
   padding: 20px 80px;
   letter-spacing: 1.3px;
   text-transform: uppercase;
@@ -68,10 +69,24 @@ ul {
   box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
 }
 
-.todo:hover {
-  cursor: pointer;
-}
 .todo:active {
   transform: translateY(3px);
   background-color: #dbd9d9;
+}
+
+.btn {
+  position: absolute;
+  right: 14px;
+  top: 23px;
+  text-align: center;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #6e3097;
+  background-color: #e0e0e0;
+}
+
+.btn:hover {
+  cursor: pointer;
 }
