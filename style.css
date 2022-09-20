@@ -75,18 +75,40 @@ ul {
 }
 
 .btn {
+  border: none;
+  outline: none;
+}
+
+.fa-angle-right {
   position: absolute;
   right: 14px;
   top: 23px;
   text-align: center;
-  border: none;
-  outline: none;
   font-size: 14px;
   text-transform: uppercase;
   color: #6e3097;
   background-color: #e0e0e0;
 }
 
-.btn:hover {
+.fa-angle-right:hover {
   cursor: pointer;
+}
+
+.fa-angle-left {
+  position: absolute;
+  left: 14px;
+  top: 23px;
+  text-align: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #6e3097;
+  background-color: #e0e0e0;
+}
+
+.fa-angle-left:hover {
+  cursor: pointer;
+}
+
+.todo.disable {
+  display: none;
 }
