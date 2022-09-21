@@ -1,4 +1,6 @@
 const Btn = document.querySelectorAll(".btn");
+const todos = document.querySelector(".todos");
+const li = document.querySelectorAll(".todo");
 const progressUl = document.querySelector(".progress-todos");
 const completeUl = document.querySelector(".complete-todos");
 
@@ -40,11 +42,11 @@ function showCompleteUI() {
         acc +
         `
         <li class="todo">
-            <button class="btn previous">
-              <i class="fa-solid fa-angle-left"></i>
-            </button>
-            ${curr}
-          </li> 
+        <button class="btn previous">
+          <i class="fa-solid fa-angle-left"></i>
+        </button>
+        ${curr}
+      </li>
         `
       );
     }, "");
@@ -55,38 +57,46 @@ function showCompleteUI() {
   }
 }
 
-function addTodo(e) {
-  // console.log(e.target);
-  if (
-    e.target.parentElement.parentElement.parentElement.classList.contains(
-      "todos"
-    )
-  ) {
-    if (e.target.classList.contains("fa-angle-right")) {
+function addToProgress(e) {
+  if (e.target.classList.contains("fa-angle-right")) {
+    if (
+      !state.progress.includes(
+        e.target.parentElement.parentElement.textContent.trim()
+      )
+    ) {
       state.progress.push(
         e.target.parentElement.parentElement.textContent.trim()
       );
-      e.target.parentElement.parentElement.classList.add("disable");
+      e.target.parentElement.parentElement.remove();
+
       showProgressUI();
-    }
-  } else if (
-    e.target.parentElement.parentElement.parentElement.classList.contains(
-      "progress-todos"
-    )
-  ) {
-    if (e.target.classList.contains("fa-angle-right")) {
-      console.log(e.target.parentElement.parentElement.textContent.trim());
+    } else {
       state.complete.push(
         e.target.parentElement.parentElement.textContent.trim()
       );
-      e.target.parentElement.parentElement.classList.add("disable");
+      e.target.parentElement.parentElement.remove();
       showCompleteUI();
-      showProgressUI();
     }
   }
-  console.log(state.progress);
-  console.log(state.complete);
+}
+
+function addToComplete(e) {
+  if (e.target.classList.contains("fa-angle-right")) {
+    if (
+      !state.complete.includes(
+        e.target.parentElement.parentElement.textContent.trim()
+      )
+    ) {
+      state.complete.push(
+        e.target.parentElement.parentElement.textContent.trim()
+      );
+      state.progress.shift();
+      e.target.parentElement.parentElement.remove();
+      showCompleteUI();
+    }
+  }
 }
 
 // Add Event Listeners
-Btn.forEach((item) => item.addEventListener("click", addTodo));
+li.forEach((item) => item.addEventListener("click", addToProgress));
+progressUl.addEventListener("click", addToComplete);
