@@ -92,26 +92,42 @@ function renderTask() {
 
 function taskClick(e) {
   if (e.target.classList.contains("fa-angle-right")) {
+    let ulName = e.target.parentElement.parentElement.parentElement.className;
     let elId = e.target.parentElement.parentElement.getAttribute("data-id");
-    let { foundElement, foundIdx } = findSpecificElement(elId);
+    let { foundElement, foundIdx } = findSpecificElement(elId, ulName);
     state[roomNames[foundElement.room]].splice(foundIdx, 1);
     moveTaskToSpecificRoom(foundElement, "right");
   } else if (e.target.classList.contains("fa-angle-left")) {
+    let ulName = e.target.parentElement.parentElement.parentElement.className;
     let elId = e.target.parentElement.parentElement.getAttribute("data-id");
-    let { foundElement, foundIdx } = findSpecificElement(elId);
-    console.log(foundElement, foundIdx);
+    let { foundElement, foundIdx } = findSpecificElement(elId, ulName);
     state[roomNames[foundElement.room]].splice(foundIdx, 1);
     moveTaskToSpecificRoom(foundElement, "left");
   }
 }
 
-function findSpecificElement(id) {
-  let totalMergedArr = [...state.task, ...state.progress, ...state.complete];
+function findSpecificElement(id, name) {
   let foundElement, foundIdx;
-  foundElement = totalMergedArr.find((element, idx) => {
-    foundIdx = idx;
-    return element.id === id;
-  });
+
+  if (name === "todos") {
+    let totalMergedArr = [...state.task];
+    foundElement = totalMergedArr.find((element, idx) => {
+      foundIdx = idx;
+      return element.id === id;
+    });
+  } else if (name === "progress-todos") {
+    let totalMergedArr = [...state.progress];
+    foundElement = totalMergedArr.find((element, idx) => {
+      foundIdx = idx;
+      return element.id === id;
+    });
+  } else {
+    let totalMergedArr = [...state.complete];
+    foundElement = totalMergedArr.find((element, idx) => {
+      foundIdx = idx;
+      return element.id === id;
+    });
+  }
 
   return {
     foundElement,
@@ -130,9 +146,8 @@ function moveTaskToSpecificRoom(obj, direction) {
 
     let selectedRoom = roomNames[modifiedObj.room];
     state[selectedRoom].push(modifiedObj);
-    console.log(state);
     renderTask();
-  } else {
+  } else if (direction === "left") {
     let modifiedObj = {
       ...obj,
       room: --obj.room,
@@ -149,3 +164,4 @@ function moveTaskToSpecificRoom(obj, direction) {
 window.addEventListener("load", renderTask);
 taskUl.addEventListener("click", taskClick);
 progressUl.addEventListener("click", taskClick);
+completeUl.addEventListener("click", taskClick);
